@@ -7,6 +7,7 @@ import translations from '@shopify/polaris/locales/en.json';
 import Cookies from 'js-cookie';
 import ApolloClient from 'apollo-boost';
 import { ApolloProvider } from 'react-apollo';
+import ClientRouter from '../components/ClientRouter';
 
 const client = new ApolloClient({
   fetchOptions: {
@@ -15,9 +16,15 @@ const client = new ApolloClient({
 });
 
 class MyApp extends App {
+
   render() {
     const { Component, pageProps } = this.props;
-    const config = { apiKey: API_KEY, shopOrigin: Cookies.get("shopOrigin"), forceRedirect: true };
+    const config = { 
+      apiKey: API_KEY, 
+      shopOrigin: Cookies.get("shopOrigin"), 
+      forceRedirect: true 
+    };
+
     return (
       <React.Fragment>
         <Head>
@@ -25,6 +32,7 @@ class MyApp extends App {
           <meta charSet="utf-8" />
         </Head>
         <Provider config={config}>
+          <ClientRouter />
           <AppProvider i18n={translations}>
             <ApolloProvider client={client}>
               <Component {...pageProps} />
@@ -34,6 +42,7 @@ class MyApp extends App {
       </React.Fragment>
     );
   }
+
 }
 
 export default MyApp;
